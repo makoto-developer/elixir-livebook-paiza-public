@@ -1,0 +1,19 @@
+version: '3.8'
+
+services:
+  paiza-elixir-livebook:
+    image: ghcr.io/livebook-dev/livebook
+    restart: always
+    container_name: ${SERVER_NAME}
+    hostname: docker_${SERVER_NAME}
+    ports:
+      - ${LIVEBOOK_PORT_1}:8090
+      - ${LIVEBOOK_PORT_2}:8091
+    environment:
+      - LIVEBOOK_PORT=8090
+      - LIVEBOOK_IFRAME_PORT=8091
+      #- LIVEBOOK_PASSWORD=${LIVEBOOK_PASSWORD}
+      # ローカルの開発環境なのでtokenによる認証は解除
+      - LIVEBOOK_TOKEN_ENABLED=false
+    volumes:
+      - ./livebook:/data
