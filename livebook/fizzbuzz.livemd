@@ -1,0 +1,115 @@
+# Fizz Buzz Elixir(Beta)編
+
+## Problem
+
+https://paiza.jp/works/mondai/c_rank_skillcheck_sample/problem_index?language_uid=elixir
+
+## Input
+
+ここにPaizaの入力データを貼り付けてください
+
+```elixir
+input1 = """
+20
+"""
+```
+
+## Expect
+
+ここにはPaizaの想定結果を貼り付けてください
+
+```elixir
+# インターネットから答えをコピーしてきた
+expect1 = """
+1
+2
+Fizz
+4
+Buzz
+Fizz
+7
+8
+Fizz
+Buzz
+11
+Fizz
+13
+14
+FizzBuzz
+16
+17
+Fizz
+19
+Buzz
+"""
+```
+
+## Solver Template
+
+```elixir
+defmodule Probrem do
+  @moduledoc """
+  Paizaの問題を解くためのモジュールです。2つのモードがあります。
+
+  1. Paizaでテンプレートを貼り付けて実行します
+  2. ローカルで実行する
+
+  なお、Paizaで実行する際は、このブロックの終端のコメントアウトを外してください。
+  ローカルではコメントアウトしてください。
+  　# TODO Paiza環境とLivebook環境を認識するすべが思いつかないため(あるっちゃあるけど)、一旦これで実装した。
+  """
+
+  # Paizaが読み込む用
+  def get_input() do
+    :stdio |> IO.read(:all)
+  end
+
+  # livebookでテストする用
+  def get_input(input) do
+    input
+  end
+
+  defp fb(n) when rem(n, 15) == 0, do: "FizzBuzz"
+  defp fb(n) when rem(n, 5) == 0, do: "Buzz"
+  defp fb(n) when rem(n, 3) == 0, do: "Fizz"
+  defp fb(n), do: n
+
+  # 解
+  def solve(input) do
+    n = input |> String.trim() |> String.to_integer()
+    result = 1..n |> Enum.map(&fb/1) |> Enum.join("\n")
+    result
+  end
+
+  # 出力
+  def answer(result) do
+    result = result <> "\n"
+    result
+  end
+end
+
+# Paizaで提出する時はコメントアウトを外す
+# Probrem.get_input() |> Probrem.solve() |> Probrem.answer() |> IO.puts
+```
+
+## Get answer
+
+```elixir
+defmodule Check do
+  def check(ans, expect) do
+    if expect == ans do
+      "✅ AC"
+    else
+      "❌ WA"
+    end
+  end
+end
+
+answer1 = input1 |> Probrem.get_input() |> Probrem.solve() |> Probrem.answer()
+
+IO.inspect("-----------------------------")
+Check.check(answer1, expect1) |> IO.puts()
+IO.inspect(answer1)
+IO.inspect(expect1)
+IO.inspect("-----------------------------")
+```
