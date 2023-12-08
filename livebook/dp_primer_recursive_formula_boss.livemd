@@ -1,0 +1,108 @@
+# Paiza 問題
+
+## Problem
+
+https://paiza.jp/works/mondai/dp_primer/dp_primer_recursive_formula_boss/edit?language_uid=elixir
+
+## Input
+
+ここにPaizaの入力データを貼り付けてください
+
+```elixir
+input1 = """
+5
+1
+2
+3
+4
+3
+"""
+```
+
+## Expect
+
+ここにはPaizaの想定結果を貼り付けてください
+
+```elixir
+expect1 = """
+1
+1
+2
+3
+2
+"""
+```
+
+## Solver Template
+
+```elixir
+defmodule Probrem do
+  @moduledoc """
+  Paizaの問題を解くためのモジュールです。2つのモードがあります。
+
+  1. Paizaでテンプレートを貼り付けて実行します
+  2. ローカルで実行する
+
+  なお、Paizaで実行する際は、このブロックの終端のコメントアウトを外してください。
+  ローカルではコメントアウトしてください。
+  　# TODO Paiza環境とLivebook環境を認識するすべが思いつかないため(あるっちゃあるけど)、一旦これで実装した。
+  """
+
+  # Paizaが読み込む用
+  def get_input() do
+    :stdio |> IO.read(:all)
+  end
+
+  # livebookでテストする用
+  def get_input(input) do
+    input
+  end
+
+  defp fibo(0), do: 0
+  defp fibo(1), do: 1
+  defp fibo(i), do: fibo(i - 1) + fibo(i - 2)
+
+  # 解
+  def solve(input) do
+    [_ | list_i] = input |> String.trim() |> String.split("\n")
+    list_i |> Enum.map(&String.to_integer(&1)) |> Enum.map(&fibo(&1)) |> Enum.join("\n")
+  end
+
+  # 出力
+  def answer(result) do
+    result <> "\n"
+  end
+
+  def run(input) do
+    input |> Probrem.get_input() |> Probrem.solve() |> Probrem.answer()
+  end
+end
+
+# Paizaで提出する時はコメントアウトを外す
+# Probrem.get_input() |> Probrem.solve() |> Probrem.answer() |> IO.puts
+```
+
+## Get answer
+
+```elixir
+# メモリ制限とかもかけたいが、一旦正解かどうかだで判断
+defmodule Check do
+  def check(ans, expect) do
+    if expect == ans do
+      "✅ AC"
+    else
+      "❌ WA"
+    end
+  end
+end
+
+answer1 = input1 |> Probrem.get_input() |> Probrem.solve() |> Probrem.answer()
+# answer2 = input2 |> Probrem.get_input() |> Probrem.solve() |> Probrem.answer()
+# answer3 = input3 |> Probrem.get_input() |> Probrem.solve() |> Probrem.answer()
+
+IO.inspect("-----------------------------")
+Check.check(answer1, expect1) |> IO.puts()
+IO.inspect(answer1)
+IO.inspect(expect1)
+IO.inspect("-----------------------------")
+```
